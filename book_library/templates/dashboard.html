@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Welcome to the Dashboard!</h2>
+
+    <h3>Available Books:</h3>
+
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }} by {{ book.author }} (Available: {{ book.available_copies }}) 
+                <form method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <button type="submit" name="action_type" value="borrow">Borrow</button>
+                    <button type="submit" name="action_type" value="return">Return</button>
+                </form></li>
+        {% endfor %}
+    </ul>
+
+    <h3>Donate a Book:</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="donation_title" placeholder="Book Title" required />
+        <input type="text" name="donation_author" placeholder="Author Name" required />
+        <button type="submit">Donate Book</button>
+    </form>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</div>
+{% endblock %}
