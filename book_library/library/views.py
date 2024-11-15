@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import Book, BorrowedBook, Donation
+from django.core.paginator import Paginator
 
 def index(request):
     if request.method == "POST":
@@ -31,12 +32,21 @@ def signup(request):
         form = UserRegistrationForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('index')
     
-    books = Book.objects.all()
+    # Fetch available books
+    available_books = Book.objects.all()
     
+    # Fetch borrowed books for the logged-in user
+    borrowed_books = BorrowedBook.objects.filter(user=request.user)
+    
+    # Fetch donated books for the logged-in user
+    donated_books = Donation.objects.filter(user=request.user)
+
+    # Handle POST requests for borrowing, returning, or donating books
     if request.method == "POST":
         book_id = request.POST.get('book_id')
         action_type = request.POST.get('action_type')
@@ -47,12 +57,16 @@ def dashboard(request):
                 BorrowedBook.objects.create(user=request.user, book=book)
                 book.available_copies -= 1
                 book.save()
-        
+
         elif action_type == 'return':
-            borrowed_book = BorrowedBook.objects.get(user=request.user, book__id=book_id)
-            borrowed_book.delete()
-            book.available_copies += 1
-            book.save()
+            borrowed_books = BorrowedBook.objects.filter(user=request.user, book__id=book_id)
+            if borrowed_books.exists():
+                # If there are multiple records, delete all of them
+                for borrowed_book in borrowed_books:
+                    borrowed_book.delete()
+                    book = borrowed_book.book  # Get the book instance from borrowed_book
+                    book.available_copies += 1
+                    book.save()
 
         elif action_type == 'donate':
             title = request.POST.get('donation_title')
@@ -61,7 +75,18 @@ def dashboard(request):
 
         return redirect('dashboard')
 
-    return render(request, 'dashboard.html', {'books': books})
+    # Implement pagination for available books
+    page_number = request.GET.get('page')
+    paginator = Paginator(available_books, 5)  # Show 5 books per page
+    available_books_page = paginator.get_page(page_number)
+
+    context = {
+        'available_books': available_books_page,
+        'borrowed_books': borrowed_books,
+        'donated_books': donated_books,
+    }
+    
+    return render(request, 'dashboard.html', context)
 
 def user_logout(request):
     logout(request)

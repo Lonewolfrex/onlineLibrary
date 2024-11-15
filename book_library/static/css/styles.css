@@ -10,7 +10,7 @@ body {
 /* Container styling */
 .container {
     width: 80%; /* Set the width of the container */
-    max-width: 600px; /* Set a maximum width for elegance */
+    max-width: 800px; /* Increased maximum width for elegance */
     margin: auto; /* Center the container */
     padding: 20px;
     background-color: #FFFFFF; /* White background for content area */
@@ -93,17 +93,56 @@ button:hover {
     background-color: #2E7D32; /* Darker green on hover */
 }
 
-/* Book list styling */
+/* Table styling */
+table {
+    width: 100%; /* Full width of the container */
+    border-collapse: collapse; /* Collapse borders between cells */
+}
+
+table th, table td {
+    border: 1px solid #ddd; /* Light gray border around cells */
+    padding: 8px; /* Padding inside cells for better spacing */
+}
+
+table th {
+    background-color: #4CAF50; /* Leaf green header background color */
+    color: white; /* White text color in header cells */
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+table tr:hover {
+    background-color: #e0e0e0; /* Slightly darker gray on row hover for better visibility */
+}
+
+/* Pagination styling */
+.pagination {
+    margin-top: 10px;
+}
+
+.pagination a {
+    color: #388E3C; /* Leaf green color for pagination links */
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background-color: #4CAF50; /* Darker green on hover for pagination links*/
+}
+
+/* Book list styling (if still needed)*/
 ul {
-    padding-left: 20px; /* Indent list items */
+    padding-left: 20px; /* Indent list items if used elsewhere in the app*/
 }
 
 ul li {
-    margin-bottom: 15px; /* Space between list items */
+   margin-bottom: 15px; /* Space between list items if used elsewhere in the app*/
 }
 
 /* Footer styling */
 footer {
-    text-align: center;
-    padding: 10px 0;
+   text-align: center;
+   padding: 10px 0;
 }
