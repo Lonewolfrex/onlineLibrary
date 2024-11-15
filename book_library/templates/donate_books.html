@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Donate Books{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Donate a Book</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="book_title">Book Title:</label>
+            <input type="text" name="book_title" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="author_name">Author Name:</label>
+            <input type="text" name="author_name" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Donate Book</button>
+    </form>
+
+    {% if donation_success %}
+        <p class="text-success">Thank you for your donation!</p>
+    {% endif %}
+</div>
+{% endblock %}

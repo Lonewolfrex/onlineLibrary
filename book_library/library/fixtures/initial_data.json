@@ -1,0 +1,35 @@
+[
+    {
+        "model": "library.book",
+        "pk": 1,
+        "fields": {
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "genre": "Fiction",
+            "description": "A novel set in the Roaring Twenties.",
+            "available_copies": 5
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 2,
+        "fields": {
+            "title": "1984",
+            "author": "George Orwell",
+            "genre": "Dystopian",
+            "description": "A novel about totalitarianism.",
+            "available_copies": 3
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 3,
+        "fields": {
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "genre": "Fiction",
+            "description": "A novel about racial injustice.",
+            "available_copies": 4
+        }
+    }
+]

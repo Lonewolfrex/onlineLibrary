@@ -66,3 +66,27 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('index')
+
+def available_books(request):
+    # Logic to retrieve and display available books
+    return render(request, 'available_books.html')
+
+def borrow_books(request):
+    # Logic to handle borrowing books
+    return render(request, 'borrow_books.html')
+
+def return_books(request):
+    # Logic to handle borrowing books
+    return render(request, 'return_books.html')
+
+def donate_books(request):
+    # Logic to handle donating books
+    return render(request, 'donate_books.html')
+
+def user_profile(request):
+    # Logic to display user profile information
+    return render(request, 'user_profile.html')
+
+def readers_club(request):
+    # Logic for book readers club information
+    return render(request, 'readers_club.html')

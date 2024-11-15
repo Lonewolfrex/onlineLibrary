@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>User Profile</h2>
+
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <h3>Update Profile</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="new_email">New Email:</label>
+            <input type="email" name="new_email" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Email</button>
+    </form>
+
+    {% if update_success %}
+        <p class="text-success">Your profile has been updated!</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Available Books{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Available Books</h2>
+    <form method="GET" action="{% url 'available_books' %}">
+        <input type="text" name="search" placeholder="Search for books..." class="form-control" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong> by {{ book.author }} (Available: {{ book.available_copies }})
+                <a href="{% url 'borrow_books' book.id %}" class="btn btn-secondary">Borrow</a>
+            </li>
+        {% empty %}
+            <li>No books available at the moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

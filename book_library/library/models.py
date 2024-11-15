@@ -14,12 +14,13 @@ class Genre(models.Model):
         return self.name
 
 class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    genre = models.ManyToManyField(Genre)
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    genre = models.CharField(max_length=100)
     description = models.TextField()
-    cover_image = models.ImageField(upload_to='covers/')
+    cover_image = models.ImageField(upload_to='covers/', blank=True, null=True)
     available_copies = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -34,3 +35,9 @@ class Donation(models.Model):
     book_title = models.CharField(max_length=200)
     author_name = models.CharField(max_length=100)
     
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
