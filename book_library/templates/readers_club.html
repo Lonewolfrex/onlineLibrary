@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Readers Club{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Book Readers Club</h2>
+
+    <p>Join our Book Readers Club to discuss your favorite books with fellow readers!</p>
+
+    <!-- Example of a club meeting schedule -->
+    <h3>Upcoming Meetings:</h3>
+    <ul>
+        {% for meeting in upcoming_meetings %}
+            <li>{{ meeting.date }} - {{ meeting.topic }}</li>
+        {% empty %}
+            <li>No upcoming meetings scheduled.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Join Club Button -->
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Join the Club</button>
+    </form>
+
+    {% if join_success %}
+        <p class="text-success">You have successfully joined the Book Readers Club!</p>
+    {% endif %}
+</div>
+{% endblock %}

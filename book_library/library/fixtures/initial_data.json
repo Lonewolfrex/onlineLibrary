@@ -1,0 +1,86 @@
+[
+    {
+        "model": "library.book",
+        "pk": 1,
+        "fields": {
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "genre": "Fiction",
+            "description": "A novel set in the Roaring Twenties.",
+            "available_copies": 5,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 2,
+        "fields": {
+            "title": "1984",
+            "author": "George Orwell",
+            "genre": "Dystopian",
+            "description": "A novel about totalitarianism.",
+            "available_copies": 3,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 3,
+        "fields": {
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "genre": "Fiction",
+            "description": "A novel about racial injustice.",
+            "available_copies": 4,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 4,
+        "fields": {
+            "title": "The Harry Potter Series",
+            "author": "J.K. Rowling",
+            "genre": "Fiction",
+            "description": "A novel set in the Fantasy world of Sorcery and Witchcraft.",
+            "available_copies": 5,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 5,
+        "fields": {
+            "title": "22 yards",
+            "author": "Sachin Ramesh Tendulkar",
+            "genre": "Sports",
+            "description": "Autobiography of Sachin Tendulkar.",
+            "available_copies": 3,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 6,
+        "fields": {
+            "title": "Kirchen of Brar",
+            "author": "Ranveer Brar",
+            "genre": "Cooking",
+            "description": "A cookbook.",
+            "available_copies": 4,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 7,
+        "fields": {
+            "title": "CISSP",
+            "author": "Mike Chappell",
+            "genre": "Technology",
+            "description": "A CISSP preparation guide.",
+            "available_copies":10,
+            "created_at": "2024-01-01 00:00:00"
+        }
+    }
+]

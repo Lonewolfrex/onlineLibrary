@@ -1,34 +1,145 @@
 {% extends 'base.html' %}
 
-{% block title %}User Dashboard{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Welcome to the Dashboard!</h2>
+    <h2>Dashboard</h2>
 
-    <h3>Available Books:</h3>
+    <!-- Section 1: Available Books -->
+    <h3>Available Books</h3>
+    <input type="text" id="searchAvailable" placeholder="Search by title or author..." onkeyup="filterTable('availableTable', 'searchAvailable')" />
+    
+    <table id="availableTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Available Copies</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in available_books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.available_copies }}</td>
+                    <td>
+                        {% if book.available_copies > 0 %}
+                            <form method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}">
+                                <input type="hidden" name="action_type" value="borrow">
+                                <button type="submit" class="btn btn-secondary">Borrow</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No available books.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <ul>
-        {% for book in books %}
-            <li>{{ book.title }} by {{ book.author }} (Available: {{ book.available_copies }}) 
-                <form method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="book_id" value="{{ book.id }}">
-                    <button type="submit" name="action_type" value="borrow">Borrow</button>
-                    <button type="submit" name="action_type" value="return">Return</button>
-                </form></li>
-        {% endfor %}
-    </ul>
+    <!-- Pagination for Available Books -->
+    <div class="pagination">
+        {% if available_books.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ available_books.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ available_books.number }} of {{ available_books.paginator.num_pages }}</span>
+        {% if available_books.has_next %}
+            <a href="?page={{ available_books.next_page_number }}">Next</a>
+            <a href="?page={{ available_books.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
 
-    <h3>Donate a Book:</h3>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="donation_title" placeholder="Book Title" required />
-        <input type="text" name="donation_author" placeholder="Author Name" required />
-        <button type="submit">Donate Book</button>
-    </form>
+    <!-- Section 2: Borrowed Books -->
+    <h3>Borrowed Books</h3>
+    <table id="borrowedTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Borrowed Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for borrowed in borrowed_books %}
+                <tr>
+                    <td>{{ borrowed.book.title }}</td>
+                    <td>{{ borrowed.book.author }}</td>
+                    <td>{{ borrowed.borrowed_date }}</td>
+                    <td>
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="book_id" value="{{ borrowed.book.id }}">
+                            <input type="hidden" name="action_type" value="return">
+                            <button type="submit" class="btn btn-danger">Return</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No borrowed books.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <a href="{% url 'logout' %}">Logout</a>
+    <!-- Section 3: Donated Books -->
+    <h3>Donated Books</h3>
+    <table id="donatedTable">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Author Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for donation in donated_books %}
+                <tr>
+                    <td>{{ donation.book_title }}</td>
+                    <td>{{ donation.author_name }}</td>
+
+                    <!-- Optionally add a button to add donated books back to available -->
+                    <!-- This could be a feature you implement later -->
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">No donated books.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </div>
+
+<script>
+// Function to filter tables based on search input
+function filterTable(tableId, inputId) {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById(inputId);
+    filter = input.value.toLowerCase();
+    table = document.getElementById(tableId);
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows (except the first one)
+    for (i = 1; i < tr.length; i++) {
+        tr[i].style.display = "none"; // Hide rows initially
+        // Loop through all cells in each row
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ""; // Show row if it matches
+                    break; // Stop searching through cells
+                }
+            }
+        }
+    }
+}
+</script>
+
 {% endblock %}

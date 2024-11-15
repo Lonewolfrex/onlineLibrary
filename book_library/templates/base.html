@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Book Library{% endblock %}</title>
+    <title>{% block title %}Your Online Library{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
+        <h1 class="library-title">Your Online Library</h1> <!-- Title -->
         <nav>
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
+            <ul class="nav-links"> <!-- Added class for styling -->
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li> <!-- Added Dashboard link -->
+                    <li><a href="{% url 'available_books' %}">View Available Books</a></li>
+                    <li><a href="{% url 'borrow_books' %}">Borrow Books</a></li>
+                    <li><a href="{% url 'donate_books' %}">Donate Books</a></li>
+                    <li><a href="{% url 'user_profile' %}">User Profile</a></li>
+                    <li><a href="{% url 'readers_club' %}">Book Readers Club</a></li>
+                    <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                    <li><a href="{% url 'index' %}">Login</a></li>
+                    <!-- Empty nav bar for login and signup pages -->
                 {% endif %}
             </ul>
         </nav>
